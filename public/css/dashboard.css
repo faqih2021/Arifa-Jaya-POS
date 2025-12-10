@@ -1,0 +1,783 @@
+/* ============================================
+   DASHBOARD STYLES - Arifa Jaya POS
+   ============================================ */
+
+/* Font Family */
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    overflow-x: hidden;
+}
+
+/* ============================================
+   WRAPPER
+   ============================================ */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 20px;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-right: 10px;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.sidebar-title {
+    white-space: nowrap;
+}
+
+.sidebar-user {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.user-role {
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.sidebar-nav {
+    padding: 15px 0;
+}
+
+.sidebar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    text-decoration: none;
+}
+
+.sidebar-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar-nav .nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-left-color: white;
+}
+
+.sidebar-nav .nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 20px;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    transition: all 0.3s ease;
+}
+
+/* ============================================
+   TOP NAVBAR
+   ============================================ */
+.top-navbar {
+    background: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar-toggle {
+    font-size: 1.25rem;
+    color: #667eea;
+    padding: 5px 10px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.current-date {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* ============================================
+   PAGE CONTENT
+   ============================================ */
+.page-content {
+    padding: 25px;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+}
+
+.breadcrumb-item a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+/* ============================================
+   STAT CARDS
+   ============================================ */
+.stat-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card .stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-card .stat-icon.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-card .stat-icon.bg-success {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.stat-card .stat-icon.bg-warning {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.stat-card .stat-icon.bg-info {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-card .stat-icon.bg-danger {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+.stat-card .stat-content {
+    flex: 1;
+}
+
+.stat-card .stat-title {
+    color: #6c757d;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.stat-card .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.stat-card .stat-change {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.stat-card .stat-change.positive {
+    color: #28a745;
+}
+
+.stat-card .stat-change.negative {
+    color: #dc3545;
+}
+
+/* ============================================
+   DATA CARDS / PANELS
+   ============================================ */
+.data-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.data-card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.data-card-header h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.data-card-body {
+    padding: 25px;
+}
+
+/* ============================================
+   TABLE STYLES
+   ============================================ */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    font-size: 13px;
+    color: #555;
+    text-transform: uppercase;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    padding: 15px 12px;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9ff;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-action {
+    padding: 5px 10px;
+    font-size: 13px;
+    border-radius: 5px;
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+.form-control, .form-select {
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+.badge {
+    padding: 6px 12px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+/* ============================================
+   CHARTS
+   ============================================ */
+.chart-container {
+    position: relative;
+    height: 300px;
+}
+
+/* ============================================
+   PRODUCT LIST (Stock Dashboard)
+   ============================================ */
+.product-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-item .product-info {
+    flex: 1;
+}
+
+.product-item .product-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.product-item .product-code {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.product-item .product-stock {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.product-item .product-stock.low {
+    color: #dc3545;
+}
+
+.product-item .product-stock.high {
+    color: #28a745;
+}
+
+/* ============================================
+   SIDEBAR COLLAPSED STATE
+   ============================================ */
+.wrapper.sidebar-collapsed .sidebar {
+    width: 70px;
+}
+
+.wrapper.sidebar-collapsed .sidebar-title,
+.wrapper.sidebar-collapsed .user-info,
+.wrapper.sidebar-collapsed .nav-link span {
+    display: none;
+}
+
+.wrapper.sidebar-collapsed .sidebar-header {
+    justify-content: center;
+    padding: 20px 10px;
+}
+
+.wrapper.sidebar-collapsed .sidebar-user {
+    justify-content: center;
+    padding: 15px 10px;
+}
+
+.wrapper.sidebar-collapsed .nav-link {
+    justify-content: center;
+    padding: 15px;
+}
+
+.wrapper.sidebar-collapsed .main-content {
+    margin-left: 70px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .wrapper.sidebar-collapsed .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-content {
+        padding: 15px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.25rem;
+    }
+}
+
+/* ============================================
+   ALERTS
+   ============================================ */
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    padding: 20px 25px;
+}
+
+.modal-body {
+    padding: 25px;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    padding: 15px 25px;
+}
+
+/* ============================================
+   SEARCH BOX
+   ============================================ */
+.search-box {
+    position: relative;
+}
+
+.search-box .form-control {
+    padding-left: 40px;
+}
+
+.search-box .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+}
+
+/* ============================================
+   PRODUCT ITEMS (Stock Dashboard)
+   ============================================ */
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s ease;
+}
+
+.product-item:hover {
+    background-color: #f8f9fa;
+}
+
+.product-item:last-child {
+    border-bottom: none;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.product-code {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.product-stock {
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.product-stock.low {
+    background-color: #ffe0e0;
+    color: #dc3545;
+}
+
+.product-stock.high {
+    background-color: #d4edda;
+    color: #28a745;
+}
+
+/* ============================================
+   DATATABLES CUSTOM STYLING
+   ============================================ */
+.dataTables_wrapper .row:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.dataTables_wrapper .row:first-child > div:first-child {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none !important;
+}
+
+.dataTables_wrapper .row:first-child > div:last-child {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none !important;
+    text-align: right;
+    margin-left: auto;
+}
+
+/* Override Bootstrap column for DataTables */
+.dataTables_wrapper .row:first-child .col-sm-12.col-md-6:first-child {
+    flex: 0 0 auto;
+    width: auto !important;
+}
+
+.dataTables_wrapper .row:first-child .col-sm-12.col-md-6:last-child {
+    flex: 0 0 auto;
+    width: auto !important;
+    margin-left: auto;
+}
+
+.dataTables_wrapper .dataTables_length {
+    margin-bottom: 0;
+}
+
+.dataTables_wrapper .dataTables_length label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    width: auto;
+    min-width: 70px;
+    padding: 6px 30px 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 0;
+    float: right;
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #495057;
+    justify-content: flex-end;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    min-width: 200px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_info {
+    padding-top: 15px;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding-top: 15px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background: #fff;
+    color: #495057 !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff !important;
+    border-color: #667eea;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff !important;
+    border-color: #667eea;
+    font-weight: 600;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+    color: #adb5bd !important;
+    cursor: not-allowed;
+    background: #f8f9fa;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    background: #f8f9fa;
+    color: #adb5bd !important;
+    border-color: #dee2e6;
+}
+
+/* DataTables responsive header/footer */
+.dataTables_wrapper .row {
+    margin: 0;
+    align-items: center;
+}
+
+.dataTables_wrapper .row > div {
+    padding: 0;
+}
+
+/* Table styling */
+.dataTables_wrapper table.dataTable {
+    border-collapse: collapse !important;
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.dataTables_wrapper table.dataTable thead th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 15px;
+    border: none;
+}
+
+.dataTables_wrapper table.dataTable thead th:first-child {
+    border-radius: 8px 0 0 0;
+}
+
+.dataTables_wrapper table.dataTable thead th:last-child {
+    border-radius: 0 8px 0 0;
+}
+
+.dataTables_wrapper table.dataTable tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+.dataTables_wrapper table.dataTable tbody tr:hover {
+    background-color: #f8f9ff;
+}
+
+/* Empty table message */
+.dataTables_wrapper .dataTables_empty {
+    padding: 30px;
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+}

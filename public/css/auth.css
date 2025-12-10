@@ -1,0 +1,252 @@
+/* ============================================
+   AUTH STYLES - Arifa Jaya POS
+   ============================================ */
+
+/* Font Family */
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Auth Body Background */
+.auth-body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+/* Auth Card */
+.auth-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 100%;
+}
+
+/* Auth Header */
+.auth-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    background: white;
+    border-radius: 16px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.auth-header h2 {
+    margin: 0;
+    font-weight: 700;
+}
+
+.auth-header p {
+    margin: 10px 0 0;
+    opacity: 0.9;
+}
+
+/* Auth Body */
+.auth-body-content {
+    padding: 40px;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border-radius: 10px;
+    padding: 12px 15px;
+    border: 2px solid #e1e1e1;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+/* Input Group */
+.input-group-text {
+    border-radius: 10px 0 0 10px;
+    border: 2px solid #e1e1e1;
+    border-right: none;
+    background: #f8f9fa;
+}
+
+.input-group .form-control {
+    border-radius: 0 10px 10px 0;
+}
+
+.input-group .btn {
+    border-radius: 0 10px 10px 0;
+    border: 2px solid #e1e1e1;
+    border-left: none;
+}
+
+/* Auth Buttons */
+.btn-auth {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: 600;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+/* Auth Links */
+.auth-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Form Check */
+.form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+}
+
+/* Alert */
+.alert {
+    border-radius: 10px;
+}
+
+/* ============================================
+   ROLE CARDS
+   ============================================ */
+.role-card {
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: block;
+}
+
+.role-card:hover {
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+.role-card.selected {
+    border-color: #667eea;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+.role-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.role-card input[type="radio"] {
+    display: none;
+}
+
+.role-card strong {
+    display: block;
+    font-size: 14px;
+}
+
+.role-card small {
+    font-size: 12px;
+}
+
+/* ============================================
+   CONDITIONAL CONTAINERS
+   ============================================ */
+.store-select-container {
+    display: none;
+}
+
+.store-select-container.show {
+    display: block;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 576px) {
+    .auth-body-content {
+        padding: 25px;
+    }
+
+    .auth-header {
+        padding: 20px;
+    }
+
+    .role-card {
+        padding: 10px;
+    }
+
+    .role-card i {
+        font-size: 1.5rem;
+    }
+
+    .role-card strong {
+        font-size: 12px;
+    }
+
+    .role-card small {
+        font-size: 10px;
+    }
+}
+
+/* ============================================
+   FORM LABELS
+   ============================================ */
+.form-label {
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+/* ============================================
+   DIVIDER
+   ============================================ */
+.auth-divider {
+    position: relative;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #e1e1e1;
+}
+
+.auth-divider span {
+    position: relative;
+    background: white;
+    padding: 0 15px;
+    color: #6c757d;
+    font-size: 14px;
+}
