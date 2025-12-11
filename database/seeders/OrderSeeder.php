@@ -20,9 +20,9 @@ class OrderSeeder extends Seeder
         $stores = Store::all();
         $cashiers = User::where('roles', 'cashier')->get();
         $memberships = Membership::all();
-        
+
         $orders = [
-            // Order reguler (non-member)
+            // Order reguler (non-member) - Cash
             [
                 'store_id' => $stores->first()->id,
                 'membership_id' => null,
@@ -32,10 +32,9 @@ class OrderSeeder extends Seeder
                 'subtotal' => 25000,
                 'total_amount' => 25000,
                 'payment_method' => 'cash',
-                'payment_status' => 'paid',
                 'is_membership_transaction' => false,
             ],
-            // Order member
+            // Order member - QRIS
             [
                 'store_id' => $stores->first()->id,
                 'membership_id' => $memberships->first()->id,
@@ -43,12 +42,11 @@ class OrderSeeder extends Seeder
                 'order_code' => 'ORD002',
                 'order_date' => Carbon::now()->subDays(4),
                 'subtotal' => 42000,
-                'total_amount' => 42000,
-                'payment_method' => 'card',
-                'payment_status' => 'paid',
+                'total_amount' => 39900, // 5% discount applied
+                'payment_method' => 'qris',
                 'is_membership_transaction' => true,
             ],
-            // Order reguler dengan e-wallet
+            // Order reguler - Transfer
             [
                 'store_id' => $stores->first()->id,
                 'membership_id' => null,
@@ -57,11 +55,10 @@ class OrderSeeder extends Seeder
                 'order_date' => Carbon::now()->subDays(3),
                 'subtotal' => 18500,
                 'total_amount' => 18500,
-                'payment_method' => 'e-wallet',
-                'payment_status' => 'paid',
+                'payment_method' => 'transfer',
                 'is_membership_transaction' => false,
             ],
-            // Order member di cabang
+            // Order member di cabang - Cash
             [
                 'store_id' => $stores->skip(1)->first() ? $stores->skip(1)->first()->id : $stores->first()->id,
                 'membership_id' => $memberships->skip(1)->first() ? $memberships->skip(1)->first()->id : $memberships->first()->id,
@@ -69,22 +66,20 @@ class OrderSeeder extends Seeder
                 'order_code' => 'ORD004',
                 'order_date' => Carbon::now()->subDays(2),
                 'subtotal' => 75000,
-                'total_amount' => 75000,
-                'payment_method' => 'transfer',
-                'payment_status' => 'paid',
+                'total_amount' => 71250, // 5% discount applied
+                'payment_method' => 'cash',
                 'is_membership_transaction' => true,
             ],
-            // Order pending
+            // Order hari ini - QRIS
             [
                 'store_id' => $stores->first()->id,
                 'membership_id' => null,
                 'cashier_user_id' => $cashiers->first()->id,
                 'order_code' => 'ORD005',
-                'order_date' => Carbon::now()->subDays(1),
+                'order_date' => Carbon::now(),
                 'subtotal' => 35000,
                 'total_amount' => 35000,
-                'payment_method' => 'cash',
-                'payment_status' => 'pending',
+                'payment_method' => 'qris',
                 'is_membership_transaction' => false,
             ],
         ];

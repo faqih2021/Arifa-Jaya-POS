@@ -12,7 +12,7 @@
 <div class="data-card">
     <div class="data-card-header d-flex justify-content-between align-items-center">
         <h5><i class="fas fa-users me-2"></i>Daftar Karyawan</h5>
-        <a href="{{ route('superadmin.employees.create') }}" class="btn btn-primary">
+        <a href="{{ route('superadmin.employees.create') }}" class="btn btn-add">
             <i class="fas fa-plus me-1"></i> Tambah Karyawan
         </a>
     </div>
@@ -43,26 +43,26 @@
                         <td><code>{{ $employee->username }}</code></td>
                         <td>
                             @if($employee->roles == 'superadmin')
-                                <span class="badge bg-danger">Superadmin</span>
+                                <span class="status-badge role-badge-superadmin"><i class="fas fa-crown me-1"></i>Superadmin</span>
                             @elseif($employee->roles == 'cashier')
-                                <span class="badge bg-success">Kasir</span>
+                                <span class="status-badge role-badge-cashier"><i class="fas fa-cash-register me-1"></i>Kasir</span>
                             @elseif($employee->roles == 'storage')
-                                <span class="badge bg-info">Gudang</span>
+                                <span class="status-badge role-badge-storage"><i class="fas fa-warehouse me-1"></i>Gudang</span>
                             @else
-                                <span class="badge bg-secondary">{{ $employee->roles }}</span>
+                                <span class="status-badge status-inactive">{{ $employee->roles }}</span>
                             @endif
                         </td>
                         <td>{{ $employee->store->name ?? '-' }}</td>
                         <td class="text-center">
-                            <div class="btn-group" role="group">
+                            <div class="action-buttons justify-content-center">
                                 <a href="{{ route('superadmin.employees.edit', $employee->id) }}"
-                                   class="btn btn-sm btn-warning"
+                                   class="btn-action btn-edit"
                                    title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @if($employee->id != auth()->id())
                                 <button type="button"
-                                        class="btn btn-sm btn-danger btn-delete"
+                                        class="btn-action btn-delete btn-delete-employee"
                                         title="Hapus"
                                         data-id="{{ $employee->id }}"
                                         data-name="{{ $employee->first_name }} {{ $employee->last_name }}">
@@ -109,7 +109,7 @@
         });
 
         // SweetAlert Delete Confirmation
-        $('.btn-delete').on('click', function() {
+        $('.btn-delete-employee').on('click', function() {
             const id = $(this).data('id');
             const name = $(this).data('name');
 
@@ -131,21 +131,4 @@
         });
     });
 </script>
-@endpush
-
-@push('styles')
-<style>
-    .avatar-circle {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: 600;
-        font-size: 14px;
-    }
-</style>
 @endpush

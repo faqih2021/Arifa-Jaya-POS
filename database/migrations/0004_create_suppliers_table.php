@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('supplier_code', 50)->unique();
-            $table->string('name');
+            $table->string('supplier_code', 6)->unique();
+            $table->string('name', 50);
             $table->text('address');
             $table->string('phone', 20);
             $table->timestamp('created_at')->useCurrent();

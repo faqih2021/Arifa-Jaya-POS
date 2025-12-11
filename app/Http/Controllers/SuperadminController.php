@@ -30,22 +30,19 @@ class SuperadminController extends Controller
             $storeIncomes[] = [
                 'store' => $store,
                 'income' => Order::where('store_id', $store->id)
-                    ->where('payment_status', 'paid')
                     ->sum('total_amount')
             ];
         }
 
         // Total income all stores
-        $totalIncome = Order::where('payment_status', 'paid')->sum('total_amount');
+        $totalIncome = Order::sum('total_amount');
 
         // Today's income
-        $todayIncome = Order::where('payment_status', 'paid')
-            ->whereDate('order_date', Carbon::today())
+        $todayIncome = Order::whereDate('order_date', Carbon::today())
             ->sum('total_amount');
 
         // This month income
-        $monthIncome = Order::where('payment_status', 'paid')
-            ->whereMonth('order_date', Carbon::now()->month)
+        $monthIncome = Order::whereMonth('order_date', Carbon::now()->month)
             ->whereYear('order_date', Carbon::now()->year)
             ->sum('total_amount');
 
@@ -53,8 +50,7 @@ class SuperadminController extends Controller
         $dailyIncomes = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = Carbon::today()->subDays($i);
-            $dailyIncomes[$date->format('d M')] = Order::where('payment_status', 'paid')
-                ->whereDate('order_date', $date)
+            $dailyIncomes[$date->format('d M')] = Order::whereDate('order_date', $date)
                 ->sum('total_amount');
         }
 
@@ -86,18 +82,14 @@ class SuperadminController extends Controller
             ->get();
 
         // Calculate store statistics
-        $totalIncome = $orders->where('payment_status', 'paid')->sum('total_amount');
+        $totalIncome = $orders->sum('total_amount');
         $totalOrders = $orders->count();
-        $paidOrders = $orders->where('payment_status', 'paid')->count();
-        $pendingOrders = $orders->where('payment_status', 'pending')->count();
 
         return view('superadmin.sales-history', compact(
             'store',
             'orders',
             'totalIncome',
-            'totalOrders',
-            'paidOrders',
-            'pendingOrders'
+            'totalOrders'
         ));
     }
 
@@ -165,20 +157,22 @@ class SuperadminController extends Controller
     public function employeeStore(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
+            'first_name' => 'required|string|max:20|regex:/^[A-Za-z\s]+$/',
+            'last_name' => 'required|string|max:20|regex:/^[A-Za-z\s]+$/',
+            'username' => 'required|string|max:20|unique:users,username',
             'password' => 'required|string|min:8',
             'roles' => 'required|in:superadmin,cashier,storage',
             'store_id' => 'required_if:roles,cashier,storage|nullable|exists:stores,id',
         ], [
             'first_name.required' => 'Nama depan wajib diisi.',
-            'first_name.max' => 'Nama depan maksimal 255 karakter.',
+            'first_name.max' => 'Nama depan maksimal 20 karakter.',
+            'first_name.regex' => 'Nama depan hanya boleh berisi huruf dan spasi.',
             'last_name.required' => 'Nama belakang wajib diisi.',
-            'last_name.max' => 'Nama belakang maksimal 255 karakter.',
+            'last_name.max' => 'Nama belakang maksimal 20 karakter.',
+            'last_name.regex' => 'Nama belakang hanya boleh berisi huruf dan spasi.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
-            'username.max' => 'Username maksimal 255 karakter.',
+            'username.max' => 'Username maksimal 20 karakter.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'roles.required' => 'Role wajib dipilih.',
@@ -233,20 +227,22 @@ class SuperadminController extends Controller
         $employee = User::findOrFail($id);
 
         $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username,' . $id,
+            'first_name' => 'required|string|max:20|regex:/^[A-Za-z\s]+$/',
+            'last_name' => 'required|string|max:20|regex:/^[A-Za-z\s]+$/',
+            'username' => 'required|string|max:20|unique:users,username,' . $id,
             'password' => 'nullable|string|min:8',
             'roles' => 'required|in:superadmin,cashier,storage',
             'store_id' => 'required_if:roles,cashier,storage|nullable|exists:stores,id',
         ], [
             'first_name.required' => 'Nama depan wajib diisi.',
-            'first_name.max' => 'Nama depan maksimal 255 karakter.',
+            'first_name.max' => 'Nama depan maksimal 20 karakter.',
+            'first_name.regex' => 'Nama depan hanya boleh berisi huruf dan spasi.',
             'last_name.required' => 'Nama belakang wajib diisi.',
-            'last_name.max' => 'Nama belakang maksimal 255 karakter.',
+            'last_name.max' => 'Nama belakang maksimal 20 karakter.',
+            'last_name.regex' => 'Nama belakang hanya boleh berisi huruf dan spasi.',
             'username.required' => 'Username wajib diisi.',
             'username.unique' => 'Username sudah digunakan.',
-            'username.max' => 'Username maksimal 255 karakter.',
+            'username.max' => 'Username maksimal 20 karakter.',
             'password.min' => 'Password minimal 8 karakter.',
             'roles.required' => 'Role wajib dipilih.',
             'roles.in' => 'Role tidak valid.',
@@ -342,15 +338,16 @@ class SuperadminController extends Controller
     public function supplierStore(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'address' => 'required|string',
-            'phone' => 'required|string|max:20',
+            'phone' => 'required|string|max:20|regex:/^[0-9]+$/',
         ], [
             'name.required' => 'Nama supplier wajib diisi.',
-            'name.max' => 'Nama supplier maksimal 255 karakter.',
+            'name.max' => 'Nama supplier maksimal 50 karakter.',
             'address.required' => 'Alamat wajib diisi.',
             'phone.required' => 'Nomor telepon wajib diisi.',
             'phone.max' => 'Nomor telepon maksimal 20 karakter.',
+            'phone.regex' => 'Nomor telepon hanya boleh berisi angka.',
         ]);
 
         // Auto-generate supplier code

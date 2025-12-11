@@ -24,26 +24,34 @@
                         <div class="col-md-6">
                             <label for="first_name" class="form-label">Nama Depan <span class="text-danger">*</span></label>
                             <input type="text"
-                                   class="form-control @error('first_name') is-invalid @enderror"
+                                   class="form-control auto-capitalize letters-only @error('first_name') is-invalid @enderror"
                                    id="first_name"
                                    name="first_name"
                                    value="{{ old('first_name', $employee->first_name) }}"
+                                   maxlength="20"
+                                   pattern="[A-Za-z\s]+"
+                                   title="Hanya huruf dan spasi yang diperbolehkan"
                                    required>
                             @error('first_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <small class="text-muted">Maksimal 20 karakter, hanya huruf</small>
                         </div>
                         <div class="col-md-6">
                             <label for="last_name" class="form-label">Nama Belakang <span class="text-danger">*</span></label>
                             <input type="text"
-                                   class="form-control @error('last_name') is-invalid @enderror"
+                                   class="form-control auto-capitalize letters-only @error('last_name') is-invalid @enderror"
                                    id="last_name"
                                    name="last_name"
                                    value="{{ old('last_name', $employee->last_name) }}"
+                                   maxlength="20"
+                                   pattern="[A-Za-z\s]+"
+                                   title="Hanya huruf dan spasi yang diperbolehkan"
                                    required>
                             @error('last_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
+                            <small class="text-muted">Maksimal 20 karakter, hanya huruf</small>
                         </div>
                     </div>
 
@@ -56,11 +64,13 @@
                                    id="username"
                                    name="username"
                                    value="{{ old('username', $employee->username) }}"
+                                   maxlength="20"
                                    required>
                             @error('username')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <small class="text-muted">Maksimal 20 karakter, harus unik</small>
                     </div>
 
                     <div class="row mb-3">
@@ -214,6 +224,24 @@
 
         // Run on role change
         rolesSelect.on('change', updateStoreRequirement);
+
+        // Auto-capitalize untuk nama (huruf pertama setiap kata)
+        $('.auto-capitalize').on('input', function() {
+            let value = $(this).val();
+            // Capitalize first letter of each word
+            value = value.replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+            $(this).val(value);
+        });
+
+        // Letters only untuk nama (hanya huruf dan spasi)
+        $('.letters-only').on('input', function() {
+            let value = $(this).val();
+            // Remove non-letter and non-space characters
+            value = value.replace(/[^A-Za-z\s]/g, '');
+            $(this).val(value);
+        });
     });
 </script>
 @endpush

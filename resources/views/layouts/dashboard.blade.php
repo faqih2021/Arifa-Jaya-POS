@@ -22,8 +22,8 @@
     <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     {{-- SweetAlert2 --}}
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    {{-- Custom Dashboard CSS --}}
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    {{-- Main CSS - Universal Styles --}}
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>
@@ -81,6 +81,24 @@
                         <a class="nav-link {{ request()->routeIs('cashier.dashboard') ? 'active' : '' }}" href="{{ route('cashier.dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cashier.cart*') ? 'active' : '' }}" href="{{ route('cashier.cart') }}">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Cart Order</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cashier.membership*') ? 'active' : '' }}" href="{{ route('cashier.membership.index') }}">
+                            <i class="fas fa-id-card"></i>
+                            <span>Membership</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('cashier.history*') ? 'active' : '' }}" href="{{ route('cashier.history') }}">
+                            <i class="fas fa-history"></i>
+                            <span>History Order</span>
                         </a>
                     </li>
 

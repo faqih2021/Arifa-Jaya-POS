@@ -24,17 +24,18 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-building"></i></span>
                             <input type="text"
-                                   class="form-control @error('name') is-invalid @enderror"
+                                   class="form-control auto-capitalize @error('name') is-invalid @enderror"
                                    id="name"
                                    name="name"
                                    value="{{ old('name') }}"
                                    placeholder="PT. Supplier Indonesia"
+                                   maxlength="50"
                                    required>
                             @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <small class="text-muted">Kode supplier akan dibuat otomatis</small>
+                        <small class="text-muted">Maksimal 50 karakter, kode supplier akan dibuat otomatis</small>
                     </div>
 
                     <div class="mb-3">
@@ -42,16 +43,20 @@
                         <div class="input-group">
                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                             <input type="text"
-                                   class="form-control @error('phone') is-invalid @enderror"
+                                   class="form-control numbers-only @error('phone') is-invalid @enderror"
                                    id="phone"
                                    name="phone"
                                    value="{{ old('phone') }}"
                                    placeholder="08123456789"
+                                   maxlength="20"
+                                   pattern="[0-9]+"
+                                   title="Hanya angka yang diperbolehkan"
                                    required>
                             @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <small class="text-muted">Maksimal 20 karakter, hanya angka</small>
                     </div>
 
                     <div class="mb-4">
@@ -97,5 +102,25 @@
         confirmButtonColor: '#667eea'
     });
     @endif
+
+    $(document).ready(function() {
+        // Auto-capitalize untuk nama (huruf pertama setiap kata)
+        $('.auto-capitalize').on('input', function() {
+            let value = $(this).val();
+            // Capitalize first letter of each word
+            value = value.replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+            $(this).val(value);
+        });
+
+        // Numbers only untuk telepon (hanya angka)
+        $('.numbers-only').on('input', function() {
+            let value = $(this).val();
+            // Remove non-numeric characters
+            value = value.replace(/[^0-9]/g, '');
+            $(this).val(value);
+        });
+    });
 </script>
 @endpush

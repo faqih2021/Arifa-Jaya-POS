@@ -12,10 +12,11 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('registered_by_user_id');
             $table->unsignedBigInteger('registered_at_store_id');
-            $table->string('membership_code', 50)->unique();
-            $table->string('name');
+            $table->string('membership_code', 6)->unique();
+            $table->string('name', 20);
             $table->text('address');
             $table->string('phone', 20);
+            $table->boolean('is_active')->default(true);
             $table->date('joined_at');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

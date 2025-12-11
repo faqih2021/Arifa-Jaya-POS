@@ -11,56 +11,56 @@
 {{-- Stats Cards --}}
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-primary me-3">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-warehouse"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Stok</div>
-                    <div class="stat-value">{{ number_format($warehouseStock) }}</div>
+                    <h3>{{ number_format($warehouseStock) }}</h3>
+                    <p>Total Stok</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-info me-3">
+        <div class="stat-card stat-card-info">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-box"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Produk</div>
-                    <div class="stat-value">{{ number_format($totalProducts) }}</div>
+                    <h3>{{ number_format($totalProducts) }}</h3>
+                    <p>Total Produk</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-warning me-3">
+        <div class="stat-card stat-card-warning">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-clock"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Request Pending</div>
-                    <div class="stat-value">{{ number_format($pendingRequests) }}</div>
+                    <h3>{{ number_format($pendingRequests) }}</h3>
+                    <p>Request Pending</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-success me-3">
+        <div class="stat-card stat-card-success">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-clipboard-list"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Request</div>
-                    <div class="stat-value">{{ number_format($totalRequests) }}</div>
+                    <h3>{{ number_format($totalRequests) }}</h3>
+                    <p>Total Request</p>
                 </div>
             </div>
         </div>
@@ -131,13 +131,13 @@
                                 <td>{{ $request->created_at->format('d M Y') }}</td>
                                 <td>
                                     @if($request->status == 'approved')
-                                        <span class="badge bg-success">Disetujui</span>
+                                        <span class="request-badge request-approved"><i class="fas fa-check me-1"></i>Disetujui</span>
                                     @elseif($request->status == 'pending')
-                                        <span class="badge bg-warning">Pending</span>
+                                        <span class="request-badge request-pending"><i class="fas fa-clock me-1"></i>Pending</span>
                                     @elseif($request->status == 'rejected')
-                                        <span class="badge bg-danger">Ditolak</span>
+                                        <span class="request-badge request-rejected"><i class="fas fa-times me-1"></i>Ditolak</span>
                                     @else
-                                        <span class="badge bg-secondary">{{ ucfirst($request->status) }}</span>
+                                        <span class="status-badge status-inactive">{{ ucfirst($request->status) }}</span>
                                     @endif
                                 </td>
                             </tr>
@@ -156,11 +156,3 @@
     </div>
 </div>
 @endsection
-
-@push('styles')
-<style>
-    .welcome-icon {
-        opacity: 0.8;
-    }
-</style>
-@endpush

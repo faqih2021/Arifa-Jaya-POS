@@ -15,11 +15,13 @@ class Membership extends Model
         'name',
         'address',
         'phone',
+        'is_active',
         'joined_at',
     ];
 
     protected $casts = [
         'joined_at' => 'date',
+        'is_active' => 'boolean',
     ];
 
     public function registeredByUser(): BelongsTo

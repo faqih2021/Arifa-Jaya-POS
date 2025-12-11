@@ -92,49 +92,6 @@
 </div>
 @endsection
 
-@push('styles')
-<style>
-    .supplier-avatar {
-        width: 100px;
-        height: 100px;
-        background: linear-gradient(135deg, #17a2b8, #138496);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 40px;
-        margin: 0 auto;
-    }
-
-    .info-item {
-        padding: 12px;
-        background: #f8f9fa;
-        border-radius: 8px;
-    }
-
-    .info-label {
-        font-size: 12px;
-        color: #6c757d;
-        margin-bottom: 4px;
-    }
-
-    .info-value {
-        font-weight: 500;
-        color: #333;
-    }
-
-    .info-value a {
-        color: var(--primary-color);
-        text-decoration: none;
-    }
-
-    .info-value a:hover {
-        text-decoration: underline;
-    }
-</style>
-@endpush
-
 @push('scripts')
 <script>
     $('.btn-delete-supplier').on('click', function() {
