@@ -14,13 +14,11 @@ class Product extends Model
         'unit',
         'actual_price',
         'selling_price',
-        'membership_price',
     ];
 
     protected $casts = [
         'actual_price' => 'integer',
         'selling_price' => 'integer',
-        'membership_price' => 'integer',
     ];
 
     public function warehouseStocks(): HasMany

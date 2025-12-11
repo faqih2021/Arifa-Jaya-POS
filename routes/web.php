@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     // Redirect root to appropriate dashboard based on role
     Route::get('/', function () {
         $user = auth()->user();
+        $user->load('store');
 
         switch ($user->roles) {
             case 'superadmin':
@@ -34,7 +35,12 @@ Route::middleware(['auth'])->group(function () {
             case 'cashier':
                 return redirect()->route('cashier.dashboard');
             case 'storage':
-                return redirect()->route('storage.dashboard');
+                // Check if user is from main store or branch store
+                if ($user->store && $user->store->is_main_store) {
+                    return redirect()->route('storage.dashboard');
+                } else {
+                    return redirect()->route('storage.branch.dashboard');
+                }
             default:
                 return redirect()->route('login');
         }
@@ -85,4 +91,55 @@ Route::prefix('warehouse')
     ->name('storage.')
     ->group(function () {
         Route::get('/', [StorageController::class, 'dashboard'])->name('dashboard');
+
+        // Products
+        Route::get('/products', [StorageController::class, 'productIndex'])->name('products.index');
+        Route::get('/products/create', [StorageController::class, 'productCreate'])->name('products.create');
+        Route::post('/products', [StorageController::class, 'productStore'])->name('products.store');
+        Route::get('/products/{product}', [StorageController::class, 'productShow'])->name('products.show');
+        Route::get('/products/{product}/edit', [StorageController::class, 'productEdit'])->name('products.edit');
+        Route::put('/products/{product}', [StorageController::class, 'productUpdate'])->name('products.update');
+        Route::delete('/products/{product}', [StorageController::class, 'productDestroy'])->name('products.destroy');
+
+        // Suppliers
+        Route::get('/suppliers', [StorageController::class, 'supplierIndex'])->name('suppliers.index');
+        Route::get('/suppliers/create', [StorageController::class, 'supplierCreate'])->name('suppliers.create');
+        Route::post('/suppliers', [StorageController::class, 'supplierStore'])->name('suppliers.store');
+        Route::get('/suppliers/{supplier}', [StorageController::class, 'supplierShow'])->name('suppliers.show');
+        Route::get('/suppliers/{supplier}/edit', [StorageController::class, 'supplierEdit'])->name('suppliers.edit');
+        Route::put('/suppliers/{supplier}', [StorageController::class, 'supplierUpdate'])->name('suppliers.update');
+        Route::delete('/suppliers/{supplier}', [StorageController::class, 'supplierDestroy'])->name('suppliers.destroy');
+
+        // Main Stocks (Warehouse Stocks)
+        Route::get('/main-stocks', [StorageController::class, 'mainStockIndex'])->name('main-stocks.index');
+        Route::get('/main-stocks/create', [StorageController::class, 'mainStockCreate'])->name('main-stocks.create');
+        Route::post('/main-stocks', [StorageController::class, 'mainStockStore'])->name('main-stocks.store');
+        Route::get('/main-stocks/{warehouseStock}', [StorageController::class, 'mainStockShow'])->name('main-stocks.show');
+        Route::get('/main-stocks/{warehouseStock}/edit', [StorageController::class, 'mainStockEdit'])->name('main-stocks.edit');
+        Route::put('/main-stocks/{warehouseStock}', [StorageController::class, 'mainStockUpdate'])->name('main-stocks.update');
+        Route::delete('/main-stocks/{warehouseStock}', [StorageController::class, 'mainStockDestroy'])->name('main-stocks.destroy');
+
+        // Branch Stock Requests (for Main Store - approval)
+        Route::get('/stock-requests', [StorageController::class, 'stockRequestIndex'])->name('stock-requests.index');
+        Route::get('/stock-requests/{stockRequest}', [StorageController::class, 'stockRequestShow'])->name('stock-requests.show');
+        Route::put('/stock-requests/{stockRequest}/approve', [StorageController::class, 'stockRequestApprove'])->name('stock-requests.approve');
+        Route::put('/stock-requests/{stockRequest}/reject', [StorageController::class, 'stockRequestReject'])->name('stock-requests.reject');
+
+        // ==========================================
+        // BRANCH STORE ROUTES
+        // ==========================================
+        Route::prefix('branch')->name('branch.')->group(function () {
+            // Dashboard Branch
+            Route::get('/', [StorageController::class, 'branchDashboard'])->name('dashboard');
+
+            // Branch Stocks (Read Only)
+            Route::get('/stocks', [StorageController::class, 'branchStockIndex'])->name('stocks.index');
+            Route::get('/stocks/{warehouseStock}', [StorageController::class, 'branchStockShow'])->name('stocks.show');
+
+            // Stock Request to Main Store (Create & Read)
+            Route::get('/request', [StorageController::class, 'branchRequestIndex'])->name('request.index');
+            Route::get('/request/create', [StorageController::class, 'branchRequestCreate'])->name('request.create');
+            Route::post('/request', [StorageController::class, 'branchRequestStore'])->name('request.store');
+            Route::get('/request/{stockRequest}', [StorageController::class, 'branchRequestShow'])->name('request.show');
+        });
     });

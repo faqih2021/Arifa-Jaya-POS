@@ -85,13 +85,60 @@
                     </li>
 
                     @elseif(Auth::user()->roles === 'storage')
-                    {{-- Storage Menu --}}
+                    {{-- Storage Menu - Berbeda berdasarkan Main Store atau Branch Store --}}
+                    @if(Auth::user()->store && Auth::user()->store->is_main_store)
+                    {{-- MAIN STORE MENU --}}
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('storage.dashboard') ? 'active' : '' }}" href="{{ route('storage.dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.products*') ? 'active' : '' }}" href="{{ route('storage.products.index') }}">
+                            <i class="fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.suppliers*') ? 'active' : '' }}" href="{{ route('storage.suppliers.index') }}">
+                            <i class="fas fa-truck"></i>
+                            <span>Suppliers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.main-stocks*') ? 'active' : '' }}" href="{{ route('storage.main-stocks.index') }}">
+                            <i class="fas fa-warehouse"></i>
+                            <span>Main Stocks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.stock-requests*') ? 'active' : '' }}" href="{{ route('storage.stock-requests.index') }}">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Branch Stock Request</span>
+                        </a>
+                    </li>
+                    @else
+                    {{-- BRANCH STORE MENU --}}
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.branch.dashboard') ? 'active' : '' }}" href="{{ route('storage.branch.dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.branch.stocks*') ? 'active' : '' }}" href="{{ route('storage.branch.stocks.index') }}">
+                            <i class="fas fa-boxes"></i>
+                            <span>Branch Stocks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('storage.branch.request*') ? 'active' : '' }}" href="{{ route('storage.branch.request.index') }}">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Stock Request</span>
+                        </a>
+                    </li>
+                    @endif
                     @endif
 
                     <li class="nav-divider"></li>

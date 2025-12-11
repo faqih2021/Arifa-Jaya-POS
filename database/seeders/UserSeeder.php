@@ -21,17 +21,17 @@ class UserSeeder extends Seeder
         $users = [
             [
                 'store_id' => null, // Superadmin tidak terikat ke store tertentu
-                'first_name' => 'Super',
-                'last_name' => 'Admin',
-                'username' => 'superadmin',
+                'first_name' => 'Budi',
+                'last_name' => 'Santoso',
+                'username' => 'budi.superadmin',
                 'password' => Hash::make('superadmin123'),
                 'roles' => 'superadmin',
             ],
             [
                 'store_id' => $mainStore->id,
-                'first_name' => 'Budi',
+                'first_name' => 'Pupung',
                 'last_name' => 'Santoso',
-                'username' => 'budi.cashier',
+                'username' => 'pupung.cashier',
                 'password' => Hash::make('cashier123'),
                 'roles' => 'cashier',
             ],
