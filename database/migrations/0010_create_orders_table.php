@@ -13,12 +13,11 @@ return new class extends Migration
             $table->unsignedBigInteger('store_id');
             $table->unsignedBigInteger('membership_id')->nullable();
             $table->unsignedBigInteger('cashier_user_id');
-            $table->string('order_code', 50)->unique();
+            $table->string('order_code', 6)->unique();
             $table->date('order_date');
             $table->integer('subtotal');
             $table->integer('total_amount');
-            $table->enum('payment_method', ['cash', 'card', 'e-wallet', 'transfer']);
-            $table->enum('payment_status', ['pending', 'paid', 'declined']);
+            $table->enum('payment_method', ['cash', 'qris', 'transfer'])->default('cash');
             $table->boolean('is_membership_transaction')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

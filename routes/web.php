@@ -82,7 +82,29 @@ Route::prefix('cashier')
     ->middleware(['auth', 'role:cashier'])
     ->name('cashier.')
     ->group(function () {
+        // Dashboard
         Route::get('/', [CashierController::class, 'dashboard'])->name('dashboard');
+
+        // Cart Order
+        Route::get('/cart', [CashierController::class, 'cart'])->name('cart');
+        Route::post('/cart/add', [CashierController::class, 'addToCart'])->name('cart.add');
+        Route::post('/cart/update', [CashierController::class, 'updateCart'])->name('cart.update');
+        Route::post('/cart/remove', [CashierController::class, 'removeFromCart'])->name('cart.remove');
+        Route::post('/cart/checkout', [CashierController::class, 'checkout'])->name('cart.checkout');
+
+        // Membership
+        Route::get('/membership', [CashierController::class, 'membershipIndex'])->name('membership.index');
+        Route::get('/membership/create', [CashierController::class, 'membershipCreate'])->name('membership.create');
+        Route::post('/membership', [CashierController::class, 'membershipStore'])->name('membership.store');
+        Route::post('/membership/lookup', [CashierController::class, 'membershipLookup'])->name('membership.lookup');
+        Route::get('/membership/{membership}/edit', [CashierController::class, 'membershipEdit'])->name('membership.edit');
+        Route::put('/membership/{membership}', [CashierController::class, 'membershipUpdate'])->name('membership.update');
+        Route::delete('/membership/{membership}', [CashierController::class, 'membershipDestroy'])->name('membership.destroy');
+        Route::patch('/membership/{membership}/toggle', [CashierController::class, 'membershipToggle'])->name('membership.toggle');
+
+        // History Order
+        Route::get('/history', [CashierController::class, 'history'])->name('history');
+        Route::get('/history/{order}', [CashierController::class, 'historyDetail'])->name('history.detail');
     });
 
 // Storage/Warehouse Routes

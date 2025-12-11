@@ -11,59 +11,57 @@
 {{-- Stats Cards --}}
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-primary me-3">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Income</div>
-                    <div class="stat-value">Rp {{ number_format($totalIncome, 0, ',', '.') }}</div>
+                    <h3>Rp {{ number_format($totalIncome, 0, ',', '.') }}</h3>
+                    <p>Total Income</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-success me-3">
+        <div class="stat-card stat-card-success">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-calendar-day"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Income Hari Ini</div>
-                    <div class="stat-value">Rp {{ number_format($todayIncome, 0, ',', '.') }}</div>
+                    <h3>Rp {{ number_format($todayIncome, 0, ',', '.') }}</h3>
+                    <p>Income Hari Ini</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-info me-3">
+        <div class="stat-card stat-card-info">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-calendar-alt"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Income Bulan Ini</div>
-                    <div class="stat-value">Rp {{ number_format($monthIncome, 0, ',', '.') }}</div>
+                    <h3>Rp {{ number_format($monthIncome, 0, ',', '.') }}</h3>
+                    <p>Income Bulan Ini</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-warning me-3">
+        <div class="stat-card stat-card-warning">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Orders</div>
-                    <div class="stat-value">{{ number_format($totalOrders) }}</div>
-                    <div class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> {{ $todayOrders }} hari ini
-                    </div>
+                    <h3>{{ number_format($totalOrders) }}</h3>
+                    <p>Total Orders</p>
+                    <span class="stat-badge"><i class="fas fa-arrow-up me-1"></i>{{ $todayOrders }} hari ini</span>
                 </div>
             </div>
         </div>
@@ -151,9 +149,11 @@
                                         {{ $totalIncome > 0 ? number_format(($storeData['income'] / $totalIncome) * 100, 1) : 0 }}%
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('superadmin.sales.history', $storeData['store']->id) }}" class="btn btn-sm btn-primary">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
+                                        <div class="action-buttons">
+                                            <a href="{{ route('superadmin.sales.history', $storeData['store']->id) }}" class="btn-action btn-view" title="Lihat Detail">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach

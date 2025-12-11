@@ -14,7 +14,7 @@ return new class extends Migration
             $table->unsignedBigInteger('from_warehouse_id');
             $table->unsignedBigInteger('to_warehouse_id');
             $table->unsignedBigInteger('approved_by_user_id')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected', 'completed']);
+            $table->enum('status', ['pending', 'approved', 'rejected', 'completed'])->default('pending');
             $table->date('request_date');
             $table->timestamp('approved_date')->nullable();
             $table->timestamp('created_at')->useCurrent();

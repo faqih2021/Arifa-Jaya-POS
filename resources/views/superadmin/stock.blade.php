@@ -11,62 +11,58 @@
 {{-- Stats Cards --}}
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-primary me-3">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-box"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Produk</div>
-                    <div class="stat-value">{{ number_format($totalProducts) }}</div>
+                    <h3>{{ number_format($totalProducts) }}</h3>
+                    <p>Total Produk</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-danger me-3">
+        <div class="stat-card stat-card-danger">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Stok Rendah</div>
-                    <div class="stat-value">{{ $lowStockProducts->count() }}</div>
-                    <div class="stat-change negative">
-                        <i class="fas fa-arrow-down"></i> < 10 unit
-                    </div>
+                    <h3>{{ $lowStockProducts->count() }}</h3>
+                    <p>Stok Rendah</p>
+                    <span class="stat-badge"><i class="fas fa-arrow-down me-1"></i>&lt; 10 unit</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-success me-3">
+        <div class="stat-card stat-card-success">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Stok Tinggi</div>
-                    <div class="stat-value">{{ $highStockProducts->count() }}</div>
-                    <div class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> > 100 unit
-                    </div>
+                    <h3>{{ $highStockProducts->count() }}</h3>
+                    <p>Stok Tinggi</p>
+                    <span class="stat-badge"><i class="fas fa-arrow-up me-1"></i>&gt; 100 unit</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-info me-3">
+        <div class="stat-card stat-card-info">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-warehouse"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Gudang</div>
-                    <div class="stat-value">{{ $warehouseStocks->count() }}</div>
+                    <h3>{{ $warehouseStocks->count() }}</h3>
+                    <p>Total Gudang</p>
                 </div>
             </div>
         </div>

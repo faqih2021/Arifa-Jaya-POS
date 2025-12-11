@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('warehouses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('store_id');
-            $table->string('warehouse_code', 50)->unique();
+            $table->string('warehouse_code', 6)->unique();
             $table->enum('warehouse_type', ['main', 'branch'])->default('branch');
-            $table->string('name');
+            $table->string('name', 50);
             $table->text('address');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

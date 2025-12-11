@@ -10,10 +10,11 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('store_code', 50)->unique();
-            $table->string('name');
+            $table->string('store_code', 6)->unique();
+            $table->string('name', 50);
             $table->text('address');
-            $table->string('phone', 20);
+            $table->string('phone', 20)
+            ;
             $table->boolean('is_main_store')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

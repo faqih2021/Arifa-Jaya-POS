@@ -17,7 +17,6 @@ class Order extends Model
         'subtotal',
         'total_amount',
         'payment_method',
-        'payment_status',
         'is_membership_transaction',
     ];
 

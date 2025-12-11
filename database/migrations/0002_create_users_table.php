@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('store_id')->nullable();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('username')->unique();
+            $table->string('first_name', 20);
+            $table->string('last_name', 20);
+            $table->string('username', 20)->unique();
             $table->string('password');
             $table->enum('roles', ['superadmin', 'cashier', 'storage']);
             $table->string('remember_token', 100)->nullable();

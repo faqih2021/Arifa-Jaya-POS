@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('product_code', 50)->unique();
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('unit', 30);
+            $table->string('product_code', 6)->unique();
+            $table->string('name', 50);
+            $table->text('description');
+            $table->string('unit', 6);
             $table->integer('actual_price');
             $table->integer('selling_price');
             $table->integer('membership_price');

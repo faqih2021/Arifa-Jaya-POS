@@ -12,59 +12,56 @@
 {{-- Stats Cards --}}
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-primary me-3">
+        <div class="stat-card stat-card-primary">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-store"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Toko</div>
-                    <div class="stat-value" style="font-size: 1.2rem;">{{ $store->name }}</div>
+                    <h3 style="font-size: 1.2rem;">{{ $store->name }}</h3>
+                    <p>Toko</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-success me-3">
+        <div class="stat-card stat-card-success">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Income</div>
-                    <div class="stat-value">Rp {{ number_format($totalIncome, 0, ',', '.') }}</div>
+                    <h3>Rp {{ number_format($totalIncome, 0, ',', '.') }}</h3>
+                    <p>Total Income</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-info me-3">
+        <div class="stat-card stat-card-info">
+            <div class="stat-card-body">
+                <div class="stat-icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Total Orders</div>
-                    <div class="stat-value">{{ number_format($totalOrders) }}</div>
-                    <div class="stat-change positive">
-                        <i class="fas fa-check-circle"></i> {{ $paidOrders }} paid
-                    </div>
+                    <h3>{{ number_format($totalOrders) }}</h3>
+                    <p>Total Orders</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card">
-            <div class="d-flex align-items-center">
-                <div class="stat-icon bg-warning me-3">
-                    <i class="fas fa-clock"></i>
+        <div class="stat-card stat-card-warning">
+            <div class="stat-card-body">
+                <div class="stat-icon">
+                    <i class="fas fa-receipt"></i>
                 </div>
                 <div class="stat-content">
-                    <div class="stat-title">Pending Orders</div>
-                    <div class="stat-value">{{ number_format($pendingOrders) }}</div>
+                    <h3>Rp {{ $totalOrders > 0 ? number_format($totalIncome / $totalOrders, 0, ',', '.') : 0 }}</h3>
+                    <p>Rata-rata per Order</p>
                 </div>
             </div>
         </div>
@@ -91,21 +88,20 @@
                                 <th>Tanggal</th>
                                 <th>Kasir</th>
                                 <th>Member</th>
-                                <th>Metode Bayar</th>
+                                <th>Pembayaran</th>
                                 <th class="text-end">Total</th>
-                                <th class="text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($orders as $index => $order)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td><code>{{ $order->order_code }}</code></td>
+                                <td><span class="order-code">{{ $order->order_code }}</span></td>
                                 <td>{{ \Carbon\Carbon::parse($order->order_date)->format('d M Y') }}</td>
                                 <td>{{ $order->cashierUser->first_name ?? '-' }} {{ $order->cashierUser->last_name ?? '' }}</td>
                                 <td>
                                     @if($order->membership)
-                                        <span class="badge bg-info">{{ $order->membership->name }}</span>
+                                        <span class="member-badge"><i class="fas fa-crown me-1"></i>{{ $order->membership->name }}</span>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
@@ -113,41 +109,23 @@
                                 <td>
                                     @switch($order->payment_method)
                                         @case('cash')
-                                            <span class="badge bg-success"><i class="fas fa-money-bill me-1"></i>Cash</span>
+                                            <span class="payment-badge payment-cash"><i class="fas fa-money-bill-wave me-1"></i>Cash</span>
                                             @break
-                                        @case('card')
-                                            <span class="badge bg-primary"><i class="fas fa-credit-card me-1"></i>Card</span>
-                                            @break
-                                        @case('e-wallet')
-                                            <span class="badge bg-info"><i class="fas fa-wallet me-1"></i>E-Wallet</span>
+                                        @case('qris')
+                                            <span class="payment-badge payment-qris"><i class="fas fa-qrcode me-1"></i>QRIS</span>
                                             @break
                                         @case('transfer')
-                                            <span class="badge bg-secondary"><i class="fas fa-university me-1"></i>Transfer</span>
+                                            <span class="payment-badge payment-transfer"><i class="fas fa-university me-1"></i>Transfer</span>
                                             @break
                                         @default
-                                            <span class="badge bg-secondary">{{ $order->payment_method }}</span>
+                                            <span class="payment-badge" style="background: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6;">{{ $order->payment_method }}</span>
                                     @endswitch
                                 </td>
                                 <td class="text-end fw-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
-                                <td class="text-center">
-                                    @switch($order->payment_status)
-                                        @case('paid')
-                                            <span class="badge bg-success"><i class="fas fa-check me-1"></i>Paid</span>
-                                            @break
-                                        @case('pending')
-                                            <span class="badge bg-warning"><i class="fas fa-clock me-1"></i>Pending</span>
-                                            @break
-                                        @case('declined')
-                                            <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Declined</span>
-                                            @break
-                                        @default
-                                            <span class="badge bg-secondary">{{ $order->payment_status }}</span>
-                                    @endswitch
-                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-4">
+                                <td colspan="7" class="text-center text-muted py-4">
                                     <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
                                     Belum ada data penjualan untuk toko ini
                                 </td>

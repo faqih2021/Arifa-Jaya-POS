@@ -12,7 +12,7 @@
 <div class="data-card">
     <div class="data-card-header d-flex justify-content-between align-items-center">
         <h5><i class="fas fa-truck me-2"></i>Daftar Supplier</h5>
-        <a href="{{ route('superadmin.suppliers.create') }}" class="btn btn-primary">
+        <a href="{{ route('superadmin.suppliers.create') }}" class="btn btn-add">
             <i class="fas fa-plus me-1"></i> Tambah Supplier
         </a>
     </div>
@@ -53,19 +53,19 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group" role="group">
+                            <div class="action-buttons justify-content-center">
                                 <a href="{{ route('superadmin.suppliers.show', $supplier->id) }}"
-                                   class="btn btn-sm btn-info"
+                                   class="btn-action btn-view"
                                    title="Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 <a href="{{ route('superadmin.suppliers.edit', $supplier->id) }}"
-                                   class="btn btn-sm btn-warning"
+                                   class="btn-action btn-edit"
                                    title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <button type="button"
-                                        class="btn btn-sm btn-danger btn-delete"
+                                        class="btn-action btn-delete btn-delete-supplier"
                                         title="Hapus"
                                         data-id="{{ $supplier->id }}"
                                         data-name="{{ $supplier->name }}">
@@ -111,7 +111,7 @@
         });
 
         // SweetAlert Delete Confirmation
-        $('.btn-delete').on('click', function() {
+        $('.btn-delete-supplier').on('click', function() {
             const id = $(this).data('id');
             const name = $(this).data('name');
 
@@ -133,19 +133,4 @@
         });
     });
 </script>
-@endpush
-
-@push('styles')
-<style>
-    .supplier-icon {
-        width: 36px;
-        height: 36px;
-        background: linear-gradient(135deg, #17a2b8, #138496);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-    }
-</style>
 @endpush
