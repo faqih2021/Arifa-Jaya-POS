@@ -75,8 +75,8 @@
                                     @endswitch
                                 </td>
                                 <td>
-                                    <a href="{{ route('storage.branch.request.show', $request) }}" class="btn btn-info btn-sm" title="Detail">
-                                        <i class="fas fa-eye"></i> Detail
+                                    <a href="{{ route('storage.branch.request.show', $request) }}" class="btn btn-sm btn-primary" title="Lihat Detail">
+                                        <i class="fas fa-eye me-1"></i> Detail
                                     </a>
                                 </td>
                             </tr>
