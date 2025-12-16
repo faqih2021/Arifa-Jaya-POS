@@ -21,21 +21,21 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="product_code" class="form-label">Kode Produk <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('product_code') is-invalid @enderror"
-                                id="product_code" name="product_code" value="{{ old('product_code') }}"
-                                placeholder="Contoh: PRD001" required>
-                            @error('product_code')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Nama Produk <span class="text-danger">*</span></label>
                             <input type="text" class="form-control @error('name') is-invalid @enderror"
                                 id="name" name="name" value="{{ old('name') }}"
                                 placeholder="Masukkan nama produk" required>
                             @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="unit" class="form-label">Satuan <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('unit') is-invalid @enderror"
+                                id="unit" name="unit" value="{{ old('unit') }}"
+                                placeholder="Contoh: pcs, kg, zak, m3" required>
+                            @error('unit')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -49,18 +49,6 @@
                         @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="unit" class="form-label">Satuan <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('unit') is-invalid @enderror"
-                                id="unit" name="unit" value="{{ old('unit') }}"
-                                placeholder="Contoh: pcs, kg, zak, m3" required>
-                            @error('unit')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
                     </div>
 
                     <hr class="my-4">

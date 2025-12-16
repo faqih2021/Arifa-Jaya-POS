@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Storage')
+@section('title', 'Dashboard Gudang - Arifa Jaya POS')
 @section('page-title', 'Dashboard Gudang')
 
 @section('breadcrumb')
@@ -8,6 +8,30 @@
 @endsection
 
 @section('content')
+{{-- Welcome Card --}}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="welcome-card">
+            <div class="welcome-card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h3 class="mb-2">Selamat Datang, {{ Auth::user()->first_name }}! 👋</h3>
+                        <p class="mb-0 opacity-85">
+                            Anda login sebagai <strong>Admin Gudang</strong> di <strong>{{ Auth::user()->store->name ?? 'Toko' }}</strong>
+                        </p>
+                        <p class="mb-0 opacity-75 small mt-2">
+                            <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-end d-none d-md-block">
+                        <i class="fas fa-warehouse fa-5x opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Stats Cards --}}
 <div class="row mb-4">
     <div class="col-xl-3 col-md-6 mb-3">
@@ -25,7 +49,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card stat-card-info">
+        <div class="stat-card stat-card-success">
             <div class="stat-card-body">
                 <div class="stat-icon">
                     <i class="fas fa-box"></i>
@@ -39,7 +63,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card stat-card-warning">
+        <div class="stat-card stat-card-info">
             <div class="stat-card-body">
                 <div class="stat-icon">
                     <i class="fas fa-clock"></i>
@@ -53,7 +77,7 @@
     </div>
 
     <div class="col-xl-3 col-md-6 mb-3">
-        <div class="stat-card stat-card-success">
+        <div class="stat-card stat-card-warning">
             <div class="stat-card-body">
                 <div class="stat-icon">
                     <i class="fas fa-clipboard-list"></i>
@@ -62,21 +86,6 @@
                     <h3>{{ number_format($totalRequests) }}</h3>
                     <p>Total Request</p>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Welcome Card --}}
-<div class="row mb-4">
-    <div class="col-12">
-        <div class="data-card">
-            <div class="data-card-body text-center py-5">
-                <div class="welcome-icon mb-3">
-                    <i class="fas fa-warehouse fa-4x text-primary"></i>
-                </div>
-                <h3>Selamat Datang, {{ Auth::user()->first_name }}!</h3>
-                <p class="text-muted mb-0">Anda login sebagai <strong>Admin Gudang</strong> di {{ Auth::user()->store->name ?? 'Toko' }}</p>
             </div>
         </div>
     </div>

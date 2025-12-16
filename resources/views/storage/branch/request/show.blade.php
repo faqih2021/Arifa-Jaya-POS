@@ -40,34 +40,34 @@
             <div class="data-card-body">
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <table class="table table-borderless">
+                        <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted" width="40%">ID Request</td>
-                                <td><strong>#{{ $stockRequest->id }}</strong></td>
+                                <td class="text-muted border-0" width="40%">ID Request</td>
+                                <td class="border-0"><strong>#{{ $stockRequest->id }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Tanggal Request</td>
-                                <td>{{ $stockRequest->created_at->format('d F Y, H:i') }}</td>
+                                <td class="text-muted border-0">Tanggal Request</td>
+                                <td class="border-0">{{ $stockRequest->created_at->format('d F Y, H:i') }}</td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Diminta Oleh</td>
-                                <td>{{ $stockRequest->requestedBy->first_name ?? '' }} {{ $stockRequest->requestedBy->last_name ?? '' }}</td>
+                                <td class="text-muted border-0">Diminta Oleh</td>
+                                <td class="border-0">{{ $stockRequest->requestedByUser->first_name ?? '' }} {{ $stockRequest->requestedByUser->last_name ?? '' }}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <table class="table table-borderless">
+                        <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted" width="40%">Dari Gudang</td>
-                                <td><strong>{{ $stockRequest->fromWarehouse->name ?? '-' }}</strong></td>
+                                <td class="text-muted border-0" width="40%">Dari Gudang</td>
+                                <td class="border-0"><strong>{{ $stockRequest->fromWarehouse->name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Ke Gudang</td>
-                                <td><strong>{{ $stockRequest->toWarehouse->name ?? '-' }}</strong></td>
+                                <td class="text-muted border-0">Ke Gudang</td>
+                                <td class="border-0"><strong>{{ $stockRequest->toWarehouse->name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Catatan</td>
-                                <td>{{ $stockRequest->notes ?? '-' }}</td>
+                                <td class="text-muted border-0">Catatan</td>
+                                <td class="border-0">{{ $stockRequest->notes ?? '-' }}</td>
                             </tr>
                         </table>
                     </div>
@@ -85,6 +85,7 @@
                                 <th>Nama Produk</th>
                                 <th>Satuan</th>
                                 <th class="text-center">Jumlah Diminta</th>
+                                <th class="text-center">Jumlah Disetujui</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,11 +95,18 @@
                                 <td><code>{{ $detail->product->product_code ?? '-' }}</code></td>
                                 <td>{{ $detail->product->name ?? '-' }}</td>
                                 <td>{{ $detail->product->unit ?? '-' }}</td>
-                                <td class="text-center"><strong>{{ number_format($detail->quantity) }}</strong></td>
+                                <td class="text-center"><strong>{{ number_format($detail->requested_quantity) }}</strong></td>
+                                <td class="text-center">
+                                    @if($stockRequest->status === 'pending')
+                                        <span class="text-muted">-</span>
+                                    @else
+                                        <strong class="text-success">{{ number_format($detail->approved_quantity) }}</strong>
+                                    @endif
+                                </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted">Tidak ada detail produk</td>
+                                <td colspan="6" class="text-center text-muted">Tidak ada detail produk</td>
                             </tr>
                             @endforelse
                         </tbody>

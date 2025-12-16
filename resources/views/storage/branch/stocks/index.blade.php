@@ -30,8 +30,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Gudang</th>
-                                <th>Kode Produk</th>
+                                <th width="80">Kode Produk</th>
                                 <th>Nama Produk</th>
                                 <th>Stok Saat Ini</th>
                                 <th>Stok Minimum</th>
@@ -43,7 +42,6 @@
                             @forelse($warehouseStocks as $index => $stock)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
-                                <td>{{ $stock->warehouse->name ?? '-' }}</td>
                                 <td><code>{{ $stock->product->product_code ?? '-' }}</code></td>
                                 <td>{{ $stock->product->name ?? '-' }}</td>
                                 <td><strong>{{ number_format($stock->current_stock) }} {{ $stock->product->unit ?? '' }}</strong></td>
@@ -71,7 +69,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="8" class="text-center text-muted py-4">
+                                <td colspan="7" class="text-center text-muted py-4">
                                     <i class="fas fa-boxes fa-3x mb-3 d-block"></i>
                                     Belum ada data stok
                                 </td>

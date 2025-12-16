@@ -50,17 +50,17 @@
                                 <td>Rp {{ number_format($product->actual_price, 0, ',', '.') }}</td>
                                 <td>Rp {{ number_format($product->selling_price, 0, ',', '.') }}</td>
                                 <td>
-                                    <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('storage.products.show', $product) }}" class="btn btn-info" title="Detail">
+                                    <div class="action-buttons">
+                                        <a href="{{ route('storage.products.show', $product) }}" class="btn-action btn-detail" title="Detail">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('storage.products.edit', $product) }}" class="btn btn-warning" title="Edit">
+                                        <a href="{{ route('storage.products.edit', $product) }}" class="btn-action btn-edit" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('storage.products.destroy', $product) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                        <form action="{{ route('storage.products.destroy', $product) }}" method="POST" class="d-inline delete-form">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" title="Hapus">
+                                            <button type="button" class="btn-action btn-delete" title="Hapus">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -91,6 +91,27 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             }
+        });
+
+        // SweetAlert delete confirmation
+        $('.btn-delete').on('click', function(e) {
+            e.preventDefault();
+            var form = $(this).closest('form');
+            Swal.fire({
+                title: 'Hapus Produk',
+                text: 'Apakah Anda yakin ingin menghapus produk ini?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fas fa-trash me-1"></i> Ya, Hapus',
+                cancelButtonText: '<i class="fas fa-times me-1"></i> Batal',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
     });
 </script>

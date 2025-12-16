@@ -22,18 +22,8 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label for="from_warehouse_id" class="form-label">Dari Gudang (Cabang) <span class="text-danger">*</span></label>
-                            <select class="form-select @error('from_warehouse_id') is-invalid @enderror"
-                                id="from_warehouse_id" name="from_warehouse_id" required>
-                                <option value="">Pilih Gudang Cabang</option>
-                                @foreach($fromWarehouses as $warehouse)
-                                <option value="{{ $warehouse->id }}" {{ old('from_warehouse_id') == $warehouse->id ? 'selected' : '' }}>
-                                    {{ $warehouse->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            @error('from_warehouse_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <input type="text" class="form-control" value="{{ $userWarehouse->name ?? '-' }}" disabled>
+                            <input type="hidden" name="from_warehouse_id" value="{{ $userWarehouse->id ?? '' }}">
                         </div>
 
                         <div class="col-md-6">

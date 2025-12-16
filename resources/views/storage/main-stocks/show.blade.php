@@ -1,10 +1,10 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Detail Produk - Storage')
-@section('page-title', 'Detail Produk')
+@section('title', 'Detail Stok - Storage')
+@section('page-title', 'Detail Stok')
 
 @section('breadcrumb')
-<li class="breadcrumb-item"><a href="{{ route('storage.products.index') }}">Products</a></li>
+<li class="breadcrumb-item"><a href="{{ route('storage.main-stocks.index') }}">Main Stocks</a></li>
 <li class="breadcrumb-item active">Detail</li>
 @endsection
 
@@ -13,12 +13,12 @@
     <div class="col-lg-12">
         <div class="data-card">
             <div class="data-card-header d-flex justify-content-between align-items-center">
-                <h5><i class="fas fa-box me-2"></i>Informasi Produk</h5>
+                <h5><i class="fas fa-warehouse me-2"></i>Informasi Stok</h5>
                 <div>
-                    <a href="{{ route('storage.products.edit', $product) }}" class="btn btn-warning btn-sm">
+                    <a href="{{ route('storage.main-stocks.edit', $warehouseStock) }}" class="btn btn-warning btn-sm">
                         <i class="fas fa-edit me-1"></i> Edit
                     </a>
-                    <form action="{{ route('storage.products.destroy', $product) }}" method="POST" class="d-inline" id="deleteForm">
+                    <form action="{{ route('storage.main-stocks.destroy', $warehouseStock) }}" method="POST" class="d-inline" id="deleteForm">
                         @csrf
                         @method('DELETE')
                         <button type="button" class="btn btn-danger btn-sm" id="btnDelete">
@@ -33,51 +33,49 @@
                         <table class="table table-borderless mb-0">
                             <tr>
                                 <td class="text-muted border-0" width="40%">Kode Produk</td>
-                                <td class="border-0"><code class="fs-5">{{ $product->product_code }}</code></td>
+                                <td class="border-0"><code class="fs-5">{{ $warehouseStock->product->product_code ?? '-' }}</code></td>
                             </tr>
                             <tr>
                                 <td class="text-muted border-0">Nama Produk</td>
-                                <td class="border-0"><strong>{{ $product->name }}</strong></td>
+                                <td class="border-0"><strong>{{ $warehouseStock->product->name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
                                 <td class="text-muted border-0">Satuan</td>
-                                <td class="border-0">{{ $product->unit }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted border-0">Deskripsi</td>
-                                <td class="border-0">{{ $product->description ?? '-' }}</td>
+                                <td class="border-0">{{ $warehouseStock->product->unit ?? '-' }}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-6">
                         <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted border-0" width="40%">Harga Modal</td>
-                                <td class="border-0"><strong class="text-danger">Rp {{ number_format($product->actual_price, 0, ',', '.') }}</strong></td>
+                                <td class="text-muted border-0" width="40%">Stok Saat Ini</td>
+                                <td class="border-0"><strong class="fs-5">{{ number_format($warehouseStock->current_stock) }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted border-0">Harga Jual</td>
-                                <td class="border-0"><strong class="text-success">Rp {{ number_format($product->selling_price, 0, ',', '.') }}</strong></td>
+                                <td class="text-muted border-0">Stok Minimum</td>
+                                <td class="border-0">{{ number_format($warehouseStock->minimum_stock) }}</td>
                             </tr>
                             <tr>
-                                <td class="text-muted border-0">Margin Keuntungan</td>
+                                <td class="text-muted border-0">Status</td>
                                 <td class="border-0">
-                                    @php
-                                        $margin = $product->selling_price - $product->actual_price;
-                                        $marginPercent = $product->actual_price > 0 ? ($margin / $product->actual_price) * 100 : 0;
-                                    @endphp
-                                    <span class="badge bg-{{ $margin > 0 ? 'success' : 'danger' }}">
-                                        Rp {{ number_format($margin, 0, ',', '.') }} ({{ number_format($marginPercent, 1) }}%)
+                                    @if($warehouseStock->current_stock <= $warehouseStock->minimum_stock)
+                                    <span class="badge bg-danger">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>Stok Rendah
                                     </span>
+                                    @else
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check me-1"></i>Aman
+                                    </span>
+                                    @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="text-muted border-0">Dibuat</td>
-                                <td class="border-0">{{ $product->created_at->format('d F Y, H:i') }}</td>
+                                <td class="border-0">{{ $warehouseStock->created_at->format('d F Y, H:i') }}</td>
                             </tr>
                             <tr>
                                 <td class="text-muted border-0">Terakhir Update</td>
-                                <td class="border-0">{{ $product->updated_at->format('d F Y, H:i') }}</td>
+                                <td class="border-0">{{ $warehouseStock->updated_at->format('d F Y, H:i') }}</td>
                             </tr>
                         </table>
                     </div>
@@ -88,8 +86,8 @@
 </div>
 
 <div class="mt-3">
-    <a href="{{ route('storage.products.index') }}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar Produk
+    <a href="{{ route('storage.main-stocks.index') }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar Stok
     </a>
 </div>
 @endsection
@@ -99,8 +97,8 @@
     document.getElementById('btnDelete').addEventListener('click', function(e) {
         e.preventDefault();
         Swal.fire({
-            title: 'Hapus Produk',
-            text: 'Apakah Anda yakin ingin menghapus produk ini?',
+            title: 'Hapus Stok',
+            text: 'Apakah Anda yakin ingin menghapus data stok ini?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#dc3545',

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\WarehouseStock;
 use App\Models\Warehouse;
 use App\Models\StockRequest;
+use App\Models\StockRequestDetail;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +102,6 @@ class StorageController extends Controller
     public function productStore(Request $request)
     {
         $request->validate([
-            'product_code' => 'required|string|max:50|unique:products,product_code',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'unit' => 'required|string|max:30',
@@ -109,7 +109,24 @@ class StorageController extends Controller
             'selling_price' => 'required|numeric|min:0',
         ]);
 
-        Product::create($request->all());
+        // Auto-generate product code
+        $lastProduct = Product::orderBy('id', 'desc')->first();
+        if ($lastProduct) {
+            $lastNumber = intval(substr($lastProduct->product_code, 3));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        $productCode = 'PRD' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+
+        Product::create([
+            'product_code' => $productCode,
+            'name' => $request->name,
+            'description' => $request->description,
+            'unit' => $request->unit,
+            'actual_price' => $request->actual_price,
+            'selling_price' => $request->selling_price,
+        ]);
 
         return redirect()->route('storage.products.index')
             ->with('success', 'Produk berhasil ditambahkan.');
@@ -189,17 +206,30 @@ class StorageController extends Controller
     public function supplierStore(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'address' => 'nullable|string',
+            'name' => 'required|string|max:50',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string',
         ]);
 
-        Supplier::create($request->all());
+        // Auto-generate supplier code
+        $lastSupplier = Supplier::orderBy('id', 'desc')->first();
+        if ($lastSupplier) {
+            $lastNumber = intval(substr($lastSupplier->supplier_code, 3));
+            $newNumber = $lastNumber + 1;
+        } else {
+            $newNumber = 1;
+        }
+        $supplierCode = 'SUP' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+
+        Supplier::create([
+            'supplier_code' => $supplierCode,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+        ]);
 
         return redirect()->route('storage.suppliers.index')
-            ->with('success', 'Supplier created successfully.');
+            ->with('success', 'Supplier berhasil ditambahkan.');
     }
 
     /**
@@ -207,7 +237,6 @@ class StorageController extends Controller
      */
     public function supplierShow(Supplier $supplier)
     {
-        $supplier->load('products');
         return view('storage.suppliers.show', compact('supplier'));
     }
 
@@ -275,10 +304,15 @@ class StorageController extends Controller
     public function mainStockCreate()
     {
         $user = Auth::user();
-        $warehouses = Warehouse::where('store_id', $user->store_id)->get();
+        $warehouse = Warehouse::where('store_id', $user->store_id)->first();
         $products = Product::orderBy('name')->get();
 
-        return view('storage.main-stocks.create', compact('warehouses', 'products'));
+        // Get existing stocks for auto-fill
+        $warehouseStocks = WarehouseStock::where('warehouse_id', $warehouse->id)
+            ->get()
+            ->keyBy('product_id');
+
+        return view('storage.main-stocks.create', compact('warehouse', 'products', 'warehouseStocks'));
     }
 
     /**
@@ -291,12 +325,23 @@ class StorageController extends Controller
             'product_id' => 'required|exists:products,id',
             'current_stock' => 'required|integer|min:0',
             'minimum_stock' => 'required|integer|min:0',
+            'maximum_stock' => 'required|integer|min:0',
         ]);
 
-        WarehouseStock::create($request->all());
+        WarehouseStock::updateOrCreate(
+            [
+                'warehouse_id' => $request->warehouse_id,
+                'product_id' => $request->product_id,
+            ],
+            [
+                'current_stock' => $request->current_stock,
+                'minimum_stock' => $request->minimum_stock,
+                'maximum_stock' => $request->maximum_stock,
+            ]
+        );
 
         return redirect()->route('storage.main-stocks.index')
-            ->with('success', 'Warehouse stock created successfully.');
+            ->with('success', 'Stok berhasil disimpan.');
     }
 
     /**
@@ -361,7 +406,7 @@ class StorageController extends Controller
         $user = Auth::user();
         $warehouseIds = Warehouse::where('store_id', $user->store_id)->pluck('id');
 
-        $stockRequests = StockRequest::with(['fromWarehouse', 'toWarehouse', 'requestedBy'])
+        $stockRequests = StockRequest::with(['fromWarehouse', 'toWarehouse', 'requestedByUser', 'details.product'])
             ->where(function($q) use ($warehouseIds) {
                 $q->whereIn('from_warehouse_id', $warehouseIds)
                   ->orWhereIn('to_warehouse_id', $warehouseIds);
@@ -377,23 +422,70 @@ class StorageController extends Controller
      */
     public function stockRequestShow(StockRequest $stockRequest)
     {
-        $stockRequest->load(['fromWarehouse', 'toWarehouse', 'requestedBy', 'details.product']);
+        $stockRequest->load(['fromWarehouse', 'toWarehouse', 'requestedByUser', 'details.product']);
         return view('storage.stock-requests.show', compact('stockRequest'));
     }
 
     /**
      * Approve a stock request
      */
-    public function stockRequestApprove(StockRequest $stockRequest)
+    public function stockRequestApprove(Request $request, StockRequest $stockRequest)
     {
+        // Update approved quantities for each detail
+        if ($request->has('details')) {
+            foreach ($request->details as $detailData) {
+                $detail = StockRequestDetail::find($detailData['id']);
+                if ($detail) {
+                    $approvedQty = (int) $detailData['approved_quantity'];
+                    
+                    $detail->update([
+                        'approved_quantity' => $approvedQty
+                    ]);
+
+                    // Skip jika approved quantity = 0
+                    if ($approvedQty <= 0) {
+                        continue;
+                    }
+
+                    // Update stock di gudang utama (to_warehouse) - kurangi stok terlebih dahulu
+                    $mainWarehouseStock = WarehouseStock::where('warehouse_id', $stockRequest->to_warehouse_id)
+                        ->where('product_id', $detail->product_id)
+                        ->first();
+
+                    if ($mainWarehouseStock && $mainWarehouseStock->current_stock >= $approvedQty) {
+                        $mainWarehouseStock->decrement('current_stock', $approvedQty);
+                    }
+
+                    // Update stock di gudang cabang (from_warehouse) - tambah stok
+                    $warehouseStock = WarehouseStock::where('warehouse_id', $stockRequest->from_warehouse_id)
+                        ->where('product_id', $detail->product_id)
+                        ->first();
+
+                    if ($warehouseStock) {
+                        $warehouseStock->increment('current_stock', $approvedQty);
+                    } else {
+                        // Jika belum ada record stok, buat baru
+                        WarehouseStock::create([
+                            'warehouse_id' => $stockRequest->from_warehouse_id,
+                            'product_id' => $detail->product_id,
+                            'current_stock' => $approvedQty,
+                            'minimum_stock' => 0,
+                            'maximum_stock' => 0,
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Update stock request status
         $stockRequest->update([
             'status' => 'approved',
-            'approved_at' => now(),
-            'approved_by' => Auth::id(),
+            'approved_date' => now(),
+            'approved_by_user_id' => Auth::user()->id,
         ]);
 
         return redirect()->route('storage.stock-requests.index')
-            ->with('success', 'Stock request approved successfully.');
+            ->with('success', 'Permintaan stok berhasil disetujui.');
     }
 
     /**
@@ -401,15 +493,19 @@ class StorageController extends Controller
      */
     public function stockRequestReject(Request $request, StockRequest $stockRequest)
     {
+        // Set approved_quantity to 0 for all details
+        foreach ($stockRequest->details as $detail) {
+            $detail->update(['approved_quantity' => 0]);
+        }
+
         $stockRequest->update([
             'status' => 'rejected',
-            'rejected_at' => now(),
-            'rejected_by' => Auth::id(),
-            'rejection_reason' => $request->input('rejection_reason'),
+            'approved_date' => now(),
+            'approved_by_user_id' => Auth::user()->id,
         ]);
 
         return redirect()->route('storage.stock-requests.index')
-            ->with('success', 'Stock request rejected.');
+            ->with('success', 'Permintaan stok ditolak.');
     }
 
     // ==========================================
@@ -521,8 +617,8 @@ class StorageController extends Controller
     {
         $user = Auth::user();
 
-        // Get branch warehouse (from)
-        $fromWarehouses = Warehouse::where('store_id', $user->store_id)->get();
+        // Get branch warehouse (from) - gudang milik user yang sedang login
+        $userWarehouse = Warehouse::where('store_id', $user->store_id)->first();
 
         // Get main store warehouse (to)
         $mainStore = \App\Models\Store::where('is_main_store', true)->first();
@@ -531,7 +627,7 @@ class StorageController extends Controller
         // Get products
         $products = Product::orderBy('name')->get();
 
-        return view('storage.branch.request.create', compact('fromWarehouses', 'toWarehouses', 'products'));
+        return view('storage.branch.request.create', compact('userWarehouse', 'toWarehouses', 'products'));
     }
 
     /**
@@ -552,7 +648,8 @@ class StorageController extends Controller
         $stockRequest = StockRequest::create([
             'from_warehouse_id' => $request->from_warehouse_id,
             'to_warehouse_id' => $request->to_warehouse_id,
-            'requested_by' => Auth::id(),
+            'requested_by_user_id' => Auth::user()->id,
+            'request_date' => now()->toDateString(),
             'status' => 'pending',
             'notes' => $request->notes,
         ]);
@@ -562,7 +659,8 @@ class StorageController extends Controller
             \App\Models\StockRequestDetail::create([
                 'stock_request_id' => $stockRequest->id,
                 'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
+                'requested_quantity' => $item['quantity'],
+                'approved_quantity' => 0,
             ]);
         }
 
@@ -575,7 +673,7 @@ class StorageController extends Controller
      */
     public function branchRequestShow(StockRequest $stockRequest)
     {
-        $stockRequest->load(['fromWarehouse', 'toWarehouse', 'requestedBy', 'details.product']);
+        $stockRequest->load(['fromWarehouse', 'toWarehouse', 'requestedByUser', 'details.product']);
         return view('storage.branch.request.show', compact('stockRequest'));
     }
 }

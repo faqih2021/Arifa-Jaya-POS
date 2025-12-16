@@ -16,6 +16,7 @@ class StockRequest extends Model
         'status',
         'request_date',
         'approved_date',
+        'notes',
     ];
 
     protected $casts = [

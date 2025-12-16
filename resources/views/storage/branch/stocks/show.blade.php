@@ -13,61 +13,39 @@
     <div class="col-lg-8">
         <div class="data-card">
             <div class="data-card-header">
-                <h5><i class="fas fa-box me-2"></i>Informasi Stok</h5>
+                <h5><i class="fas fa-box me-2"></i>Informasi Produk</h5>
             </div>
             <div class="data-card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <table class="table table-borderless">
+                        <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted" width="40%">Gudang</td>
-                                <td><strong>{{ $warehouseStock->warehouse->name ?? '-' }}</strong></td>
+                                <td class="text-muted border-0" width="40%">Gudang</td>
+                                <td class="border-0"><strong>{{ $warehouseStock->warehouse->name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Kode Produk</td>
-                                <td><code class="fs-5">{{ $warehouseStock->product->product_code ?? '-' }}</code></td>
+                                <td class="text-muted border-0">Kode Produk</td>
+                                <td class="border-0"><code class="fs-5">{{ $warehouseStock->product->product_code ?? '-' }}</code></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Nama Produk</td>
-                                <td><strong>{{ $warehouseStock->product->name ?? '-' }}</strong></td>
+                                <td class="text-muted border-0">Nama Produk</td>
+                                <td class="border-0"><strong>{{ $warehouseStock->product->name ?? '-' }}</strong></td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Satuan</td>
-                                <td><span class="badge bg-secondary">{{ $warehouseStock->product->unit ?? '-' }}</span></td>
+                                <td class="text-muted border-0">Satuan</td>
+                                <td class="border-0">{{ $warehouseStock->product->unit ?? '-' }}</td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <table class="table table-borderless">
+                        <table class="table table-borderless mb-0">
                             <tr>
-                                <td class="text-muted" width="40%">Stok Saat Ini</td>
-                                <td>
-                                    <span class="fs-4 fw-bold text-{{ $warehouseStock->current_stock <= $warehouseStock->minimum_stock ? 'danger' : 'success' }}">
-                                        {{ number_format($warehouseStock->current_stock) }}
-                                    </span>
-                                </td>
+                                <td class="text-muted border-0" width="40%">Harga Modal</td>
+                                <td class="border-0">Rp {{ number_format($warehouseStock->product->actual_price ?? 0, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <td class="text-muted">Stok Minimum</td>
-                                <td>{{ number_format($warehouseStock->minimum_stock) }}</td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">Status</td>
-                                <td>
-                                    @if($warehouseStock->current_stock <= $warehouseStock->minimum_stock)
-                                    <span class="badge bg-danger">
-                                        <i class="fas fa-exclamation-triangle me-1"></i>Stok Rendah
-                                    </span>
-                                    @elseif($warehouseStock->current_stock > $warehouseStock->minimum_stock * 3)
-                                    <span class="badge bg-success">
-                                        <i class="fas fa-arrow-up me-1"></i>Stok Tinggi
-                                    </span>
-                                    @else
-                                    <span class="badge bg-info">
-                                        <i class="fas fa-check me-1"></i>Normal
-                                    </span>
-                                    @endif
-                                </td>
+                                <td class="text-muted border-0">Harga Jual</td>
+                                <td class="border-0"><span class="text-success fw-bold">Rp {{ number_format($warehouseStock->product->selling_price ?? 0, 0, ',', '.') }}</span></td>
                             </tr>
                         </table>
                     </div>
@@ -79,21 +57,41 @@
     <div class="col-lg-4">
         <div class="data-card">
             <div class="data-card-header">
-                <h5><i class="fas fa-tags me-2"></i>Informasi Harga</h5>
+                <h5><i class="fas fa-warehouse me-2"></i>Informasi Stok</h5>
             </div>
             <div class="data-card-body">
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Harga Modal:</span>
-                    <span>Rp {{ number_format($warehouseStock->product->actual_price ?? 0, 0, ',', '.') }}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Harga Jual:</span>
-                    <span class="text-success">Rp {{ number_format($warehouseStock->product->selling_price ?? 0, 0, ',', '.') }}</span>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <span class="text-muted">Harga Member:</span>
-                    <span class="text-primary">Rp {{ number_format($warehouseStock->product->membership_price ?? 0, 0, ',', '.') }}</span>
-                </div>
+                <table class="table table-borderless mb-0">
+                    <tr>
+                        <td class="text-muted border-0" width="40%">Stok Saat Ini</td>
+                        <td class="border-0">
+                            <span class="fs-4 fw-bold text-{{ $warehouseStock->current_stock <= $warehouseStock->minimum_stock ? 'danger' : 'success' }}">
+                                {{ number_format($warehouseStock->current_stock) }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted border-0">Stok Minimum</td>
+                        <td class="border-0"><span class="text-info">{{ number_format($warehouseStock->minimum_stock) }}</span></td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted border-0">Status</td>
+                        <td class="border-0">
+                            @if($warehouseStock->current_stock <= $warehouseStock->minimum_stock)
+                            <span class="badge bg-danger">
+                                <i class="fas fa-exclamation-triangle me-1"></i>Stok Rendah
+                            </span>
+                            @elseif($warehouseStock->current_stock > $warehouseStock->minimum_stock * 3)
+                            <span class="badge bg-success">
+                                <i class="fas fa-arrow-up me-1"></i>Stok Tinggi
+                            </span>
+                            @else
+                            <span class="badge bg-info">
+                                <i class="fas fa-check me-1"></i>Normal
+                            </span>
+                            @endif
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
 

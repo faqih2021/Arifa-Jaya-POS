@@ -22,13 +22,9 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="product_code" class="form-label">Kode Produk <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control @error('product_code') is-invalid @enderror"
-                                id="product_code" name="product_code" value="{{ old('product_code', $product->product_code) }}"
-                                placeholder="Contoh: PRD001" required>
-                            @error('product_code')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label for="product_code" class="form-label">Kode Produk</label>
+                            <input type="text" class="form-control"
+                                id="product_code" value="{{ $product->product_code }}" disabled>
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -116,14 +112,14 @@
                 <h5><i class="fas fa-info-circle me-2"></i>Informasi Produk</h5>
             </div>
             <div class="data-card-body">
-                <table class="table table-sm table-borderless">
+                <table class="table table-sm table-borderless mb-0">
                     <tr>
-                        <td class="text-muted">Dibuat:</td>
-                        <td>{{ $product->created_at->format('d/m/Y H:i') }}</td>
+                        <td class="text-muted border-0">Dibuat:</td>
+                        <td class="border-0">{{ $product->created_at->format('d/m/Y H:i') }}</td>
                     </tr>
                     <tr>
-                        <td class="text-muted">Diupdate:</td>
-                        <td>{{ $product->updated_at->format('d/m/Y H:i') }}</td>
+                        <td class="text-muted border-0">Diupdate:</td>
+                        <td class="border-0">{{ $product->updated_at->format('d/m/Y H:i') }}</td>
                     </tr>
                 </table>
             </div>
