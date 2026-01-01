@@ -59,10 +59,9 @@
                                 </td>
                                 <td>
                                     <div class="action-buttons">
-                                        <button type="button" class="btn-action btn-detail" title="Detail"
-                                            data-bs-toggle="modal" data-bs-target="#detailModal{{ $stock->id }}">
+                                        <a href="{{ route('storage.main-stocks.show', $stock) }}" class="btn-action btn-detail" title="Detail">
                                             <i class="fas fa-eye"></i>
-                                        </button>
+                                        </a>
                                         <a href="{{ route('storage.main-stocks.edit', $stock) }}" class="btn-action btn-edit" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
