@@ -1,59 +1,209 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 Arifa Jaya POS
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="public/images/logo.png" alt="Arifa Jaya Logo" width="200">
 </p>
 
-## About Laravel
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-12.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP">
+  <img src="https://img.shields.io/badge/TailwindCSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap">
+  <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Deskripsi
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Arifa Jaya POS** adalah sistem Point of Sale (POS) berbasis web yang dikembangkan menggunakan Laravel 12. Aplikasi ini dirancang untuk mengelola operasional toko retail dengan fitur multi-store (toko pusat dan cabang), manajemen inventori gudang, sistem membership, dan pelaporan penjualan.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Fitur Utama
 
-## Learning Laravel
+### 👤 Multi-Role User Management
+- **Superadmin** - Mengelola seluruh sistem, karyawan, supplier, dan melihat laporan penjualan semua toko
+- **Cashier (Kasir)** - Melakukan transaksi penjualan, mengelola membership, dan melihat riwayat transaksi
+- **Storage (Gudang)** - Mengelola produk, stok gudang, dan permintaan stok
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 🏪 Multi-Store Support
+- Dukungan untuk toko pusat (main store) dan toko cabang (branch store)
+- Setiap toko memiliki gudang dan stok masing-masing
+- Sistem permintaan stok dari cabang ke pusat
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📦 Manajemen Inventori
+- Pengelolaan produk dengan kode produk, harga beli, dan harga jual
+- Manajemen stok gudang per toko
+- Sistem permintaan stok (Stock Request) dengan alur approval
+- Tracking supplier dan produk dari supplier
 
-## Laravel Sponsors
+### 💳 Sistem Transaksi
+- Keranjang belanja (Cart) untuk kasir
+- Dukungan berbagai metode pembayaran
+- Integrasi dengan sistem membership untuk diskon khusus
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 🎫 Sistem Membership
+- Registrasi dan pengelolaan member
+- Lookup member berdasarkan kode membership
+- Status aktif/non-aktif member
+- Transaksi khusus member
 
-### Premium Partners
+### 📊 Riwayat & Laporan
+- Riwayat transaksi per kasir
+- Detail transaksi lengkap
+- Laporan penjualan per toko (Superadmin)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🛠️ Tech Stack
 
-## Contributing
+| Kategori | Teknologi |
+|----------|-----------|
+| **Backend** | Laravel 12, PHP 8.2+ |
+| **Frontend** | Blade Templates, Tailwind CSS 4.0, Bootstrap 5.3, MDB UI Kit |
+| **Database** | MySQL |
+| **Build Tools** | Vite 7, NPM |
+| **Testing** | PHPUnit 11 |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📁 Struktur Database
 
-## Code of Conduct
+```
+stores              - Data toko (pusat & cabang)
+users               - Data pengguna (superadmin, cashier, storage)
+products            - Data produk
+suppliers           - Data supplier
+warehouses          - Data gudang per toko
+warehouse_stocks    - Stok produk di gudang
+stock_requests      - Permintaan stok dari cabang
+stock_request_details - Detail permintaan stok
+memberships         - Data member
+orders              - Data transaksi/order
+order_details       - Detail item dalam order
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🚀 Instalasi
 
-## Security Vulnerabilities
+### Prasyarat
+- PHP >= 8.2
+- Composer
+- Node.js & NPM
+- MySQL
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Langkah Instalasi
 
-## License
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/username/Arifa-Jaya-POS.git
+   cd Arifa-Jaya-POS
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
+
+3. **Konfigurasi environment**
+   ```bash
+   cp env .env
+   ```
+   
+   Sesuaikan konfigurasi database di file `.env`:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=db_arifa_pos
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
+
+4. **Generate application key**
+   ```bash
+   php artisan key:generate
+   ```
+
+5. **Jalankan migrasi dan seeder**
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
+
+6. **Build assets**
+   ```bash
+   npm run build
+   ```
+
+7. **Jalankan aplikasi**
+   ```bash
+   php artisan serve
+   ```
+
+### Quick Setup (Alternatif)
+```bash
+composer setup
+```
+
+### Development Mode
+```bash
+composer dev
+```
+Perintah ini akan menjalankan Laravel server, queue listener, log viewer, dan Vite secara bersamaan.
+
+## 📖 Penggunaan
+
+### Login
+Akses aplikasi melalui `http://localhost:8000/login`
+
+### Role-based Dashboard
+Setelah login, pengguna akan diarahkan ke dashboard sesuai role:
+- **Superadmin**: `/superadmin`
+- **Cashier**: `/cashier`
+- **Storage (Main)**: `/warehouse`
+- **Storage (Branch)**: `/warehouse/branch`
+
+## 🗂️ Struktur Aplikasi
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── AuthController.php
+│   │   ├── SuperadminController.php
+│   │   ├── CashierController.php
+│   │   └── StorageController.php
+│   └── Middleware/
+├── Models/
+│   ├── User.php
+│   ├── Store.php
+│   ├── Product.php
+│   ├── Supplier.php
+│   ├── Warehouse.php
+│   ├── WarehouseStock.php
+│   ├── StockRequest.php
+│   ├── StockRequestDetail.php
+│   ├── Membership.php
+│   ├── Order.php
+│   └── OrderDetail.php
+└── Providers/
+
+resources/views/
+├── auth/           - Halaman login
+├── superadmin/     - Views untuk superadmin
+├── cashier/        - Views untuk kasir
+└── storage/        - Views untuk gudang
+```
+
+## 🧪 Testing
+
+Jalankan test dengan perintah:
+```bash
+composer test
+```
+atau
+```bash
+php artisan test
+```
+
+## 📝 License
+
+Project ini dilisensikan di bawah [MIT License](LICENSE).
+
+<p align="center">
+  Made with ❤️ using Laravel
+</p>
