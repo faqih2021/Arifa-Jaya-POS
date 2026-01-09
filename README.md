@@ -18,20 +18,20 @@
 
 ## 🤟🏼 Akun
 **Superadmin**
-Username    : budi.superadmin
-Password    : superadmin123
+- Username    : budi.superadmin
+- Password    : superadmin123
 
 **Cashier**
-Username    : pupung.cashier
-Password    : cashier123
+- Username    : pupung.cashier
+- Password    : cashier123
 
 **Main Storage**
-Username    : siti.storage
-Password    : storage123
+- Username    : siti.storage
+- Password    : storage123
 
 **Branch Storage**
-Username    : maya.storage
-Password    : storage123
+- Username    : maya.storage
+- Password    : storage123
 
 ## ✨ Fitur Utama
 
