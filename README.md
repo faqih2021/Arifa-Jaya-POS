@@ -16,6 +16,9 @@
 
 **Arifa Jaya POS** adalah sistem Point of Sale (POS) berbasis web yang dikembangkan menggunakan Laravel 12. Aplikasi ini dirancang untuk mengelola operasional toko retail dengan fitur multi-store (toko pusat dan cabang), manajemen inventori gudang, sistem membership, dan pelaporan penjualan.
 
+## 🌐URL Website
+https://arifajaya-pos.my.id
+
 ## 🤟🏼 Akun
 **Superadmin**
 - Username    : budi.superadmin
